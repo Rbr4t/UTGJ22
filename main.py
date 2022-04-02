@@ -20,19 +20,21 @@ def main_menu():
 
 def start_the_game():
     char = pygame.image.load("pixil-frame-0.png") #suvaline pilt hetkel ei hakka praegu pilte lisama
-
+    #window = pygame.display.set_mode([800, 600])
     korrad = 0
     RUN = True
     player = classes.Player(window, char)
     easy = random.randint(1, 12)
     crazy = random.randint(12, 30)
-    enemies = [classes.Meteor() for _ in range(crazy)]
+    enemies = [classes.Meteor(window) for _ in range(crazy)]
 
     clock = pygame.time.Clock()
-
+    allowed_to_break = False
     while RUN:
         clock.tick(30)
-
+        #print(allowed_to_break)
+        if allowed_to_break:
+            print(allowed_to_break)
 
         
         
@@ -69,13 +71,18 @@ def start_the_game():
         player.draw()
         player.change()
         
-        print((player.x, player.y))
+        
         #meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
         for enemy in enemies:
             enemy.update(dt)
-        for enemy in enemies:
             enemy.draw(window)
+            if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
+                print("Hello!")
+                enemies.remove(enemy)
+            #if player.y < enemy.hitbox[1] + enemy.hitbox[3] and player.y > enemy.hitbox[1]:
+                #if player.x > enemy.hitbox[0] and player.x < enemy.hitbox[0] + enemy.hitbox[2]:
+                #print("hit")
         player.sides(player.x, player.y)
         #ground.draw()
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
