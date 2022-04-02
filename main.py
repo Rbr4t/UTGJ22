@@ -23,8 +23,9 @@ def start_the_game():
     korrad = 0
     RUN = True
     player = classes.Player(window, char)
-
-    enemies = [classes.Meteor() for _ in range(5)]
+    easy = random.randint(1, 12)
+    crazy = random.randint(12, 30)
+    enemies = [classes.Meteor() for _ in range(crazy)]
 
     clock = pygame.time.Clock()
 
@@ -58,17 +59,17 @@ def start_the_game():
             else: 
                 player.jumpCount = 10
                 player.isJump = False
-                player.y = 540
+                player.y = 490
         
         
         
         window.fill((255,255,255))
         
         player.draw()
-        #meteoor
         
-
-
+        
+        print((player.x, player.y))
+        #meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
         for enemy in enemies:
             enemy.update(dt)

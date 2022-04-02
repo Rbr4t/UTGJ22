@@ -6,18 +6,21 @@ class Player:
     def __init__(self,window, image):
         #self.image = pygame.image.load("pixil-frame-0.png")
         self.x = 320
-        self.y = 540
+        self.y = 490
         self.window = window
         self.image = image
         self.vel = 5
         self.isJump = False
         self.jumpCount = 5
-        
+
+        self.hitbox = (self.x, self.y, 50, 50) # this
 
     def draw(self):
-
-        self.window.blit(self.image, (self.x, self.y))
-        #pygame.display.flip()
+        pygame.draw.rect(self.window, (255,0,0), self.hitbox,2)
+        
+        self.window.blit(self.image, (self.x, self.y)) # this
+        
+        
     def sides(self, x, y):
         if self.x > self.window.get_width()-self.image.get_width():
             self.x = self.window.get_width()- self.image.get_width()
