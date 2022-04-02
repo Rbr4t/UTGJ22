@@ -2,6 +2,7 @@
 import pygame
 import random
 from pygame.locals import *
+
 class Player:
     def __init__(self,window, image):
         #self.image = pygame.image.load("pixil-frame-0.png")
@@ -53,3 +54,13 @@ class Meteor:
         s.blit(self.img, [self.x - self.img.get_width() / 2, self.y - self.img.get_height() / 2])
         self.hitbox = (self.x-15, self.y-15, 30, 30)
 
+class Projectile:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.radius = 10
+        self.color = (0, 0, 0)
+        self.vel = 15
+
+    def draw(self, win):
+        pygame.draw.circle(win, self.color, (self.x+20, self.y), self.radius)

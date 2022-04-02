@@ -23,21 +23,28 @@ def start_the_game():
     #window = pygame.display.set_mode([800, 600])
     korrad = 0
     RUN = True
+    
     player = classes.Player(window, char)
+    bullet = classes.Projectile(player.x, player.y)
     easy = random.randint(1, 12)
     crazy = random.randint(12, 30)
     enemies = [classes.Meteor(window) for _ in range(crazy)]
-
+    shootLoop = 0
     clock = pygame.time.Clock()
     allowed_to_break = False
     while RUN:
         clock.tick(30)
-        #print(allowed_to_break)
-        if allowed_to_break:
-            print(allowed_to_break)
+        
+        if shootLoop > 0:
+            shootLoop += 1
+        if shootLoop > 3:
+            shootLoop = 0
 
-        
-        
+    for bullet in bullets:
+        if bullet.y < 800 and bullet.y > 0:
+            bullet.y -= bullet.vel
+        else:
+            bullets.pop(bullets.index(bullet))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 RUN = False
@@ -49,6 +56,10 @@ def start_the_game():
 
         if keys[pygame.K_d]: 
             player.x += player.vel
+        if keys[pygame.K_SPACE] and shootLoop == 0:
+            if len(bullets) < 10:
+                bullets.append(bullet(round(player.x), round(player.y), 6, (0,0,0)))
+            shootLoop = 1
         
         #jumping mechanism
         if not(player.isJump): 
@@ -73,9 +84,10 @@ def start_the_game():
         
         if enemies == []:
             enemies = [classes.Meteor(window) for _ in range(crazy)]
-
+        
         #meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
+        bullet.update(dt)
         for enemy in enemies:
             enemy.update(dt)
             enemy.draw(window)
