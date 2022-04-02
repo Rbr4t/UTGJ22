@@ -24,6 +24,7 @@ def start_the_game():
     RUN = True
     player = classes.Player(window, char)
 
+    enemies = [classes.Meteor() for _ in range(5)]
 
     clock = pygame.time.Clock()
 
@@ -64,8 +65,15 @@ def start_the_game():
         window.fill((255,255,255))
         
         player.draw()
+        #meteoor
         
-        
+
+
+        dt = clock.get_time() / (1.0 / 60.0 * 1000)
+        for enemy in enemies:
+            enemy.update(dt)
+        for enemy in enemies:
+            enemy.draw(window)
         player.sides(player.x, player.y)
         #ground.draw()
         pygame.display.update()
