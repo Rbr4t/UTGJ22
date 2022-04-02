@@ -1,6 +1,7 @@
-import pygame
 import pygame_menu
 import classes
+import pygame, random, classes
+
 from pygame.locals import *
 
 from menu import game_options, set_difficulty
@@ -18,30 +19,56 @@ def main_menu():
 
 def start_the_game():
     char = pygame.image.load("pixil-frame-0.png") #suvaline pilt hetkel ei hakka praegu pilte lisama
+
+    korrad = 0
     RUN = True
-    x = 320
-    y = 140
-    player = classes.Player(window, x, y, char)
+    player = classes.Player(window, char)
+
+
     clock = pygame.time.Clock()
-    while RUN: #gameloop
+
+    while RUN:
+        clock.tick(30)
+
+
         
-        #print([player.x, y])
-        dt = clock.tick(30)
-        keys=pygame.key.get_pressed()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 RUN = False
-            
-            if keys[K_a]:
-                player.x -= player.vel
 
-            if keys[K_d]:
-                player.x += player.vel
-            
+        keys = pygame.key.get_pressed()
 
-        window.fill([255, 255, 255])
-        player.draw(dt)
-        pygame.display.flip()
+        if keys[pygame.K_a]:  
+            player.x -= player.vel
+
+        if keys[pygame.K_d]: 
+            player.x += player.vel
+        
+        #jumping mechanism
+        if not(player.isJump): 
+
+            if keys[pygame.K_w]:
+                player.isJump = True
+        else:
+            if player.jumpCount >= -8:
+                player.y -= (player.jumpCount * abs(player.jumpCount)) * 0.5
+                player.jumpCount -= 1
+            else: 
+                player.jumpCount = 10
+                player.isJump = False
+                player.y = 540
+        
+        
+        
+        window.fill((255,255,255))
+        
+        player.draw()
+        
+        
+        player.sides(player.x, player.y)
+        #ground.draw()
+        pygame.display.update()
 
 pygame.init()
 window = pygame.display.set_mode([800, 600]) # hetkel jätan nii suureks
