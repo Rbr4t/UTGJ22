@@ -72,3 +72,6 @@ class Projectile:
     
     def bllt(self, win):
         return pygame.draw.rect(win, (255,0,0), self.hitbox,2)
+
+    def die(self):
+        self.y = -30

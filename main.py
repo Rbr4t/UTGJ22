@@ -12,7 +12,6 @@ def main_menu():
 
     menu.add.button('Mängi', start_the_game)
     menu.add.selector('Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=set_difficulty)
-    print(sounds)
     menu.add.button('Seaded', game_options(sounds))
     menu.add.button('Välju', pygame_menu.events.EXIT)
     return menu
@@ -21,17 +20,17 @@ def main_menu():
 def start_the_game():
     #bg = pygame.image.load("")
     saurusG_kõnnib = [pygame.image.load("Kunst/Dinos/Green/dino_walk_r.png"), pygame.image.load("Kunst/Dinos/Green/dino_stand.png")]
-    sarurusG_seisab = pygame.image.load("Kunst/Dinos/Green/dino_stand.png")
+    sarurusG_seisab = pygame.image.load("Kunst/Dinos/Pink/dino_stand_l.png")
     pygame.mixer.music.load('Kunst/Muusika/bgm.wav')
     pygame.mixer.music.play(-1)
-    char = sarurusG_seisab #suvaline pilt hetkel ei hakka praegu pilte lisama
+    #char = sarurusG_seisab #suvaline pilt hetkel ei hakka praegu pilte lisama
     #window = pygame.display.set_mode([800, 600])
     korrad = 0
     RUN = True
     
     bullets =[]
     #class to var
-    player = classes.Player(window, char)
+    player = classes.Player(window, sarurusG_seisab)
     bullet = classes.Projectile(player.x, player.y)
     #gamemodes
     easy = random.randint(1, 12)
@@ -71,6 +70,7 @@ def start_the_game():
             player.x += player.vel
         if keys[pygame.K_SPACE] and shootLoop == 0:
             if len(bullets) < 10:
+                pygame.mixer.Sound.play(sounds[2])
                 bullets.append(classes.Projectile(round(player.x), round(player.y)))
             shootLoop = 1
         if keys[pygame.K_LCTRL]: 
@@ -106,11 +106,13 @@ def start_the_game():
         
         #meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
-        for bullet in bullets:
-            bullet.draw(window)
-            
-            if pygame.Rect.colliderect(bullet.bllt(window), enemy.ennmy()):
-                 print("HIT")
+        for enemy in enemies:
+            for bullet in bullets:
+                bullet.draw(window)
+                if pygame.Rect.colliderect(bullet.bllt(window), enemy.ennmy()):
+                    bullet.die()
+                    enemy.die()
+                    pygame.mixer.Sound.play(sounds[3])
 
         if enemies == []:
             enemies = [classes.Meteor(window) for _ in range(crazy)]
@@ -127,12 +129,12 @@ def start_the_game():
         
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
         pygame.display.update()
-    
+
 width = 800
 height = 600
 pygame.init()
 pygame.mixer.init()
-sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"),pygame.mixer.Sound("Kunst/Muusika/boom.wav") ]
+sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"),pygame.mixer.Sound("Kunst/Muusika/boom.wav"),pygame.mixer.Sound("Kunst/Muusika/shot2.wav"),pygame.mixer.Sound("Kunst/Muusika/meteorDown.wav") ]
 #pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height]) # hetkel jätan nii suureks
 main_menu().mainloop(window)
