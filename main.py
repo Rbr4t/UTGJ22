@@ -66,7 +66,7 @@ def start_the_game():
         window.fill((255,255,255))
         
         player.draw()
-        
+        player.change()
         
         print((player.x, player.y))
         #meteoor

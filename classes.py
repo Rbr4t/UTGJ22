@@ -19,7 +19,8 @@ class Player:
         pygame.draw.rect(self.window, (255,0,0), self.hitbox,2)
         
         self.window.blit(self.image, (self.x, self.y)) # this
-        
+    def change(self):
+        self.hitbox = (self.x, self.y, 50, 50) 
         
     def sides(self, x, y):
         if self.x > self.window.get_width()-self.image.get_width():
