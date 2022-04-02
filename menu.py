@@ -20,19 +20,30 @@ def game_options(sounds):
         width=600
     )
 
+    last_value = pygame.mixer.music.get_volume()
 
-    game_options.add.range_slider('Muusika', 50, (0, 100), 1, onchange=lambda x : set_volume_power(sounds, x),
+    game_options.add.range_slider('Muusika', 50, (0, 100), 1, onchange=lambda x : set_volume_power(sounds, x, last_value),
                                              rangeslider_id='range_slider',
                                              value_format=lambda x: str(int(x)))
-    game_options.add.toggle_switch('Mute',0)
+    game_options.add.toggle_switch('Mute',0, onchange=lambda x : set_mute_power(sounds, x, last_value))
     game_options.add.selector('Dino värv',[('roheline',0), ('roosa',1)])
     game_options.add.vertical_margin(10)
     game_options.add.vertical_margin(30)
     game_options.add.button('Tagasi', pygame_menu.events.BACK)
     return game_options
 
-def set_volume_power(sounds, new_value):
+def set_volume_power(sounds, new_value, last_value):
     for sound in sounds:
-        print(sound)
         sound.set_volume(new_value/100)
     pygame.mixer.music.set_volume(new_value/100)
+    last_value = new_value
+
+def set_mute_power(sounds, muted, last_value):
+    if (muted):
+        for sound in sounds:
+            sound.set_volume(0)
+        pygame.mixer.music.set_volume(0)
+    else:
+        for sound in sounds:
+            sound.set_volume(last_value)
+        pygame.mixer.music.set_volume(last_value)
