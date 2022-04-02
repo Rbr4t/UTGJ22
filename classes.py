@@ -33,7 +33,7 @@ class Player:
 class Meteor:
     def __init__(self, window):
         self.window = window
-        self.x = random.randint(0, 600)
+        self.x = random.randint(0, window.get_size()[0])
         self.y = 0
         self.vx = 0
         self.vy = random.uniform(1, 2)
@@ -48,7 +48,7 @@ class Meteor:
         return pygame.draw.rect(self.window, (255,0,0), self.hitbox,2)
     def die(self):
         self.y = 0
-        self.x = random.uniform(0, 640)
+        self.x = random.uniform(0, 800)
         self.vy = random.uniform(1, 2)
     def draw(self, s):
         s.blit(self.img, [self.x - self.img.get_width() / 2, self.y - self.img.get_height() / 2])
@@ -62,7 +62,7 @@ class Projectile:
         self.radius = 10
         self.color = (0, 0, 0)
         self.vel = 10
-        self.hitbox = (self.x, self.y, -100, -100)
+        self.hitbox = (self.x, self.y, 10, 10)
 
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x+20, self.y), self.radius)

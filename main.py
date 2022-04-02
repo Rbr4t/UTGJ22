@@ -108,7 +108,7 @@ def start_the_game():
             enemy.update(dt)
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
-                print("Hello!")
+                RUN = False
                 pygame.mixer.Sound.play(sounds[1])
                 enemies.remove(enemy)
                 
