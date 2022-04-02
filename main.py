@@ -71,7 +71,9 @@ def start_the_game():
         player.draw()
         player.change()
         
-        
+        if enemies == []:
+            enemies = [classes.Meteor(window) for _ in range(crazy)]
+
         #meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
         for enemy in enemies:

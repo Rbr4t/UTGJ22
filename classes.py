@@ -51,4 +51,5 @@ class Meteor:
         self.vy = random.uniform(1, 2)
     def draw(self, s):
         s.blit(self.img, [self.x - self.img.get_width() / 2, self.y - self.img.get_height() / 2])
-        self.hitbox = (self.x, self.y, 50, 50)
+        self.hitbox = (self.x-15, self.y-15, 30, 30)
+
