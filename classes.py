@@ -55,6 +55,7 @@ class Meteor:
         self.hitbox = (self.x-15, self.y-15, 30, 30)
 
 class Projectile:
+
     def __init__(self, x, y):
         self.x = x
         
@@ -65,8 +66,8 @@ class Projectile:
         self.hitbox = (self.x, self.y, 10, 10)
 
     def draw(self, win):
-        pygame.draw.circle(win, self.color, (self.x+20, self.y), self.radius)
-        self.hitbox = (self.x, self.y, 10, 10)
+        pygame.draw.circle(win, self.color, (self.x+25, self.y), self.radius)
+        self.hitbox = (self.x+15, self.y-10, 20, 20) #hitbox'i väärtused
         #pygame.draw.rect(win, (255,0,0), self.hitbox,2)
     
     def bllt(self, win):

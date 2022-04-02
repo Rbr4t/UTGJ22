@@ -40,7 +40,8 @@ def start_the_game():
     
     shootLoop = 0
     clock = pygame.time.Clock()
-   
+    allowed_to_break = False
+    paused = False;
     while RUN:
         clock.tick(30)
         
@@ -72,7 +73,13 @@ def start_the_game():
             if len(bullets) < 10:
                 bullets.append(classes.Projectile(round(player.x), round(player.y)))
             shootLoop = 1
-        
+        if keys[pygame.K_LCTRL]: 
+            paused=not paused
+            if (paused):
+                clock.tick(0)
+            else:
+                clock.tick(30)
+
         #jumping mechanism
         if not(player.isJump): 
 
