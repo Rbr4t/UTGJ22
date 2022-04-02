@@ -4,10 +4,11 @@ import pygame, random, classes
 
 from pygame.locals import *
 
+from button import button
 from menu import game_options, set_difficulty
 
 def main_menu():
-    menu = pygame_menu.Menu('Muruniiduk', 600, 400,
+    menu = pygame_menu.Menu('Muruniiduk', width, height,
                         theme=pygame_menu.themes.THEME_BLUE)
 
     menu.add.button('Mängi', start_the_game)
@@ -77,8 +78,10 @@ def start_the_game():
             enemy.draw(window)
         player.sides(player.x, player.y)
         #ground.draw()
+        image = pygame.image.load('setting_ico_smol.png').convert_alpha()
         pygame.display.update()
-
+width = 800
+height = 600
 pygame.init()
-window = pygame.display.set_mode([800, 600]) # hetkel jätan nii suureks
+window = pygame.display.set_mode([width, height]) # hetkel jätan nii suureks
 main_menu().mainloop(window)
