@@ -4,22 +4,24 @@ import pygame, random, classes
 
 from pygame.locals import *
 
-from button import button
 from menu import game_options, set_difficulty
-
+global sounds
 def main_menu():
     menu = pygame_menu.Menu('Muruniiduk', width, height,
                         theme=pygame_menu.themes.THEME_BLUE)
 
     menu.add.button('Mängi', start_the_game)
     menu.add.selector('Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=set_difficulty)
-    menu.add.button('Seaded', game_options())
+    print(sounds)
+    menu.add.button('Seaded', game_options(sounds))
     menu.add.button('Välju', pygame_menu.events.EXIT)
     return menu
-
+    
 
 def start_the_game():
-    char = pygame.image.load("pixil-frame-0.png") #srandom picture, I will later add right one
+    pygame.mixer.music.load('Kunst/Muusika/bgm.wav')
+    pygame.mixer.music.play(-1)
+    char = pygame.image.load("pixil-frame-0.png") #suvaline pilt hetkel ei hakka praegu pilte lisama
     #window = pygame.display.set_mode([800, 600])
     korrad = 0
     RUN = True
@@ -68,6 +70,7 @@ def start_the_game():
 
             if keys[pygame.K_w]:
                 player.isJump = True
+                pygame.mixer.Sound.play(sounds[0])
         else:
             if player.jumpCount >= -8:
                 player.y -= (player.jumpCount * abs(player.jumpCount)) * 0.5
@@ -96,6 +99,7 @@ def start_the_game():
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
                 print("Hello!")
+                pygame.mixer.Sound.play(sounds[1])
                 enemies.remove(enemy)
             
         player.sides(player.x, player.y)
@@ -105,5 +109,8 @@ def start_the_game():
 width = 800
 height = 600
 pygame.init()
+pygame.mixer.init()
+sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"),pygame.mixer.Sound("Kunst/Muusika/boom.wav") ]
+#pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height]) # hetkel jätan nii suureks
 main_menu().mainloop(window)
