@@ -20,11 +20,11 @@ def main_menu():
     
 def start_the_game():
     #bg = pygame.image.load("")
-    saurusG_kõnnib = [pygame.image.load("Kunst/Green/pixil-frame-0(2).png", pygame.image.load("Kunst/Green/seisev_dinosaurus.png"))]
-    sarurusG_seisab = pygame.image.load("Kunst/Green/seisev_dinosaurus.png")
+    #saurusG_kõnnib = [pygame.image.load("Kunst/Green/pixil-frame-0(2).png", pygame.image.load("Kunst/Green/seisev_dinosaurus.png"))]
+    #sarurusG_seisab = pygame.image.load("Kunst/Green/seisev_dinosaurus.png")
     pygame.mixer.music.load('Kunst/Muusika/bgm.wav')
     pygame.mixer.music.play(-1)
-    char = pygame.image.load(sarurusG_seisab) #suvaline pilt hetkel ei hakka praegu pilte lisama
+    char = pygame.image.load("test_subject.png") #suvaline pilt hetkel ei hakka praegu pilte lisama
     #window = pygame.display.set_mode([800, 600])
     korrad = 0
     RUN = True
