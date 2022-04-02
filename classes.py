@@ -57,10 +57,17 @@ class Meteor:
 class Projectile:
     def __init__(self, x, y):
         self.x = x
+        
         self.y = y
         self.radius = 10
         self.color = (0, 0, 0)
-        self.vel = 15
+        self.vel = 10
+        self.hitbox = (self.x, self.y, -100, -100)
 
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x+20, self.y), self.radius)
+        self.hitbox = (self.x, self.y, 10, 10)
+        #pygame.draw.rect(win, (255,0,0), self.hitbox,2)
+    
+    def bllt(self, win):
+        return pygame.draw.rect(win, (255,0,0), self.hitbox,2)

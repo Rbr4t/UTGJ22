@@ -25,17 +25,21 @@ def start_the_game():
     RUN = True
     
     bullets =[]
+    #class to var
     player = classes.Player(window, char)
     bullet = classes.Projectile(player.x, player.y)
+    #gamemodes
     easy = random.randint(1, 12)
     crazy = random.randint(12, 30)
-    enemies = [classes.Meteor(window) for _ in range(crazy)]
+    enemies = [classes.Meteor(window) for _ in range(crazy)] #creating falling meteors
+    
     shootLoop = 0
     clock = pygame.time.Clock()
-    allowed_to_break = False
+   
     while RUN:
         clock.tick(30)
         
+        #bullets
         if shootLoop > 0:
             shootLoop += 1
         if shootLoop > 3:
@@ -47,6 +51,7 @@ def start_the_game():
             else:
                 bullets.pop(bullets.index(bullet))
 
+        #user input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 RUN = False
@@ -84,24 +89,30 @@ def start_the_game():
         player.draw()
         player.change()
         
-        if enemies == []:
-            enemies = [classes.Meteor(window) for _ in range(crazy)]
+        
         
         #meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
         for bullet in bullets:
             bullet.draw(window)
+            
+            if pygame.Rect.colliderect(bullet.bllt(window), enemy.ennmy()):
+                 print("HIT")
+
+        if enemies == []:
+            enemies = [classes.Meteor(window) for _ in range(crazy)]
         for enemy in enemies:
             enemy.update(dt)
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
-                print("Hello!")
-                enemies.remove(enemy)
+                RUN = False
+                
             
         player.sides(player.x, player.y)
-        #ground.draw()
+        
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
         pygame.display.update()
+    
 width = 800
 height = 600
 pygame.init()
