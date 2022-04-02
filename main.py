@@ -19,11 +19,12 @@ def main_menu():
 
 
 def start_the_game():
-    char = pygame.image.load("pixil-frame-0.png") #suvaline pilt hetkel ei hakka praegu pilte lisama
+    char = pygame.image.load("pixil-frame-0.png") #srandom picture, I will later add right one
     #window = pygame.display.set_mode([800, 600])
     korrad = 0
     RUN = True
     
+    bullets =[]
     player = classes.Player(window, char)
     bullet = classes.Projectile(player.x, player.y)
     easy = random.randint(1, 12)
@@ -40,11 +41,12 @@ def start_the_game():
         if shootLoop > 3:
             shootLoop = 0
 
-    for bullet in bullets:
-        if bullet.y < 800 and bullet.y > 0:
-            bullet.y -= bullet.vel
-        else:
-            bullets.pop(bullets.index(bullet))
+        for bullet in bullets:
+            if bullet.y < 800 and bullet.y > 0:
+                bullet.y -= bullet.vel
+            else:
+                bullets.pop(bullets.index(bullet))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 RUN = False
@@ -58,7 +60,7 @@ def start_the_game():
             player.x += player.vel
         if keys[pygame.K_SPACE] and shootLoop == 0:
             if len(bullets) < 10:
-                bullets.append(bullet(round(player.x), round(player.y), 6, (0,0,0)))
+                bullets.append(classes.Projectile(round(player.x), round(player.y)))
             shootLoop = 1
         
         #jumping mechanism
@@ -87,16 +89,15 @@ def start_the_game():
         
         #meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
-        bullet.update(dt)
+        for bullet in bullets:
+            bullet.draw(window)
         for enemy in enemies:
             enemy.update(dt)
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
                 print("Hello!")
                 enemies.remove(enemy)
-            #if player.y < enemy.hitbox[1] + enemy.hitbox[3] and player.y > enemy.hitbox[1]:
-                #if player.x > enemy.hitbox[0] and player.x < enemy.hitbox[0] + enemy.hitbox[2]:
-                #print("hit")
+            
         player.sides(player.x, player.y)
         #ground.draw()
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
