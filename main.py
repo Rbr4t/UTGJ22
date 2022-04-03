@@ -4,7 +4,7 @@ import pygame
 import random
 import classes
 import time
-
+from datetime import datetime
 from pygame.locals import *
 
 from menu import game_options
@@ -58,6 +58,9 @@ def start_the_game():
     korrad = 0
     RUN = True
 
+    
+
+
     muru = pygame.image.load("Kunst/Esemed/muru.png")
 
     bullets = []
@@ -68,8 +71,11 @@ def start_the_game():
     easy = random.randint(1, 12)
     global round_ammo
     global meteorite_amount #= random.randint(50, 130) # crazy == gamemod. chan
+    
+    crazy = random.randint(12, 30)
+    X = easy
     enemies = [classes.Meteor(window)
-               for _ in range(meteorite_amount)]  # creating falling meteors
+               for _ in range(X)]  # creating falling meteors
     
     #HUD elemdid
     hearts = 3
@@ -78,12 +84,37 @@ def start_the_game():
     myfont = pygame.font.SysFont("Arial", 25)
     score = 0
 
+    #Aeg
+    counter = 30
+    pygame.time.set_timer(pygame.USEREVENT, 1000)
+    font = pygame.font.SysFont('Consolas', 30)
+    
     shootLoop = 0
     clock = pygame.time.Clock()
+    crazy_mode = False
     
+    M = 1
     while RUN and hearts > 0:
-        clock.tick(30)
+        #time remaining
         
+        print(X)
+         
+        if counter == 0:
+            if M%2 != 0:
+                X = crazy
+               
+                counter = 60
+            else:
+                counter = 120
+                X = easy
+            M += 1
+            
+        
+
+
+
+        clock.tick(30)
+        countersurface = myfont.render(f"Time left: {counter}", False, (0, 0, 0))
         textsurface = myfont.render(f"Score: {hearts}", False, (0, 0, 0))
         # bullets
         if shootLoop > 0:
@@ -101,7 +132,9 @@ def start_the_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 RUN = False
-
+            if event.type == pygame.USEREVENT: 
+                counter -= 1
+                
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
@@ -163,6 +196,7 @@ def start_the_game():
         #HUD elemendid
 
         window.blit(textsurface, (width-120, 0))
+        window.blit(countersurface, (340, 0))
         for heart in listed_hearts:
             window.blit(heart[0], heart[1])
 
@@ -178,7 +212,7 @@ def start_the_game():
                     pygame.mixer.Sound.play(sounds[3])
 
         if enemies == []:
-            enemies = [classes.Meteor(window) for _ in range(meteorite_amount)]
+            enemies = [classes.Meteor(window) for _ in range(X)]
         for enemy in enemies:
             enemy.update(dt)
             enemy.draw(window)
