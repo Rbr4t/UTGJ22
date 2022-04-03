@@ -3,6 +3,7 @@ import classes
 import pygame
 import random
 import classes
+import time
 
 from pygame.locals import *
 
@@ -28,6 +29,7 @@ def start_the_game():
         "Kunst/Dinos/Green/dino_walk_r.png"), pygame.image.load("Kunst/Dinos/Green/dino_stand.png")]
     sarurusG_seisab = pygame.image.load("Kunst/Dinos/Pink/dino_stand_l.png")
     pygame.mixer.music.load('Kunst/Muusika/bgm.wav')
+    heart = pygame.image.load("Kunst/Esemed/heart.png")
     pygame.mixer.music.play(-1)
     # char = sarurusG_seisab #suvaline pilt hetkel ei hakka praegu pilte lisama
     #window = pygame.display.set_mode([800, 600])
@@ -43,14 +45,17 @@ def start_the_game():
     crazy = random.randint(12, 30)
     enemies = [classes.Meteor(window)
                for _ in range(crazy)]  # creating falling meteors
+    
+    hearts = 3
+    listed_hearts = [(heart, (0, 0)), (heart, (40, 0)), (heart, (80, 0))]
 
     shootLoop = 0
     clock = pygame.time.Clock()
-    allowed_to_break = False
-    paused = False
-    while RUN:
+    
+    while RUN and hearts > 0:
         clock.tick(30)
-
+        print(str(hearts))
+        
         # bullets
         if shootLoop > 0:
             shootLoop += 1
@@ -123,7 +128,8 @@ def start_the_game():
 
         player.draw()
         player.change()
-
+        for heart in listed_hearts:
+            window.blit(heart[0], heart[1])
         # meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
         for enemy in enemies:
@@ -140,7 +146,8 @@ def start_the_game():
             enemy.update(dt)
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
-                RUN = False
+                hearts -= 1
+                listed_hearts.pop(-1)
                 pygame.mixer.Sound.play(sounds[1])
                 enemies.remove(enemy)
 
