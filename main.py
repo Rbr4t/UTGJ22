@@ -25,7 +25,7 @@ def set_difficulty(difficulty):
         meteorite_amount = random.randint(60, 85) #meteorites
     else: #not so hard
         print("kerge")
-        round_ammo = 5 #ammo
+        round_ammo = 7 #ammo
         meteorite_amount = random.randint(10, 19) #meteorites
 
 def main_menu():
@@ -105,8 +105,8 @@ def start_the_game():
             else:
                 counter = 120
                 new_meteorites = [classes.Meteor(window)
-                for _ in range(meteorite_amount)]
-                enemies.extend(new_meteorites+12)
+                for _ in range(meteorite_amount+12)]
+                enemies.extend(new_meteorites)
                 double_points = False
                 counter = 10
             M += 1
