@@ -19,7 +19,7 @@ meteorite_amount = random.randint(60, 85)
 def set_difficulty(difficulty):
     global round_ammo
     global meteorite_amount
-    print(round_ammo)
+    #print(round_ammo)
     if difficulty == 1: #Hard
         round_ammo = 3 #ammo
         meteorite_amount = random.randint(60, 85) #meteorites
@@ -32,11 +32,11 @@ def main_menu():
     menu = pygame_menu.Menu('Muruniiduk', width, height,
                             theme=pygame_menu.themes.THEME_BLUE)
 
-    menu.add.button('Mängi', start_the_game)
+    menu.add.button('PLAY', start_the_game)
     menu.add.selector(
-        'Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=lambda x, index : set_difficulty(index))
-    menu.add.button('Seaded', game_options(sounds,DinoPath))
-    menu.add.button('Välju', pygame_menu.events.EXIT)
+        'Difficulity :', [('Hard', 1), ('Normal', 2)], onchange=lambda x, index : set_difficulty(index))
+    menu.add.button('Settings', game_options(sounds,DinoPath))
+    menu.add.button('Exit', pygame_menu.events.EXIT)
     return menu
 
 
@@ -53,6 +53,7 @@ def start_the_game():
     pygame.mixer.music.load('Kunst/Muusika/bgm.wav')
     heart = pygame.image.load("Kunst/Esemed/heart.png")
     pygame.mixer.music.play(-1)
+    taust = pygame.image.load("Kunst/Esemed/taust.png")
     # char = sarurusG_seisab #suvaline pilt hetkel ei hakka praegu pilte lisama
     #window = pygame.display.set_mode([800, 600])
     korrad = 0
@@ -189,7 +190,7 @@ def start_the_game():
                 player.y = 490
 
         window.fill((255, 255, 255))
-        
+        window.blit(taust, (0, 0))
         player.draw()
         player.change()
 
@@ -223,15 +224,19 @@ def start_the_game():
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
                 hearts -= 1
-                
-                listed_hearts.pop(-1)
-                pygame.mixer.Sound.play(sounds[1])
-                enemies.remove(enemy)
+                try:
+                    listed_hearts.pop(-1)
+                    pygame.mixer.Sound.play(sounds[1])
+                    enemies.remove(enemy)
+                except:
+                    RUN = False
+            
 
         player.sides(player.x, player.y)
         
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
         pygame.display.update()
+    
 
 global width, height
 width = 800
@@ -242,7 +247,7 @@ pygame.font.init()
 sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"), pygame.mixer.Sound("Kunst/Muusika/boom.wav"),
           pygame.mixer.Sound("Kunst/Muusika/shot2.wav"), pygame.mixer.Sound("Kunst/Muusika/meteorDown.wav")]
 DinoPath = ["Kunst/Dinos/Green/"]
-
+pygame.display.set_caption("DinoDeath")  # name
 # pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height])  # hetkel jätan nii suureks
 main_menu().mainloop(window)
