@@ -12,20 +12,20 @@ def game_options(sounds, dinoPath):
     game_options = pygame_menu.Menu(
         height=400,
         theme=options_theme,
-        title='Seaded',
+        title='Settings',
         width=600
     )
 
     last_value = pygame.mixer.music.get_volume()
 
-    game_options.add.range_slider('Muusika', 50, (0, 100), 1, onchange=lambda x : set_volume_power(sounds, x, last_value),
+    game_options.add.range_slider('Music', 50, (0, 100), 1, onchange=lambda x : set_volume_power(sounds, x, last_value),
                                              rangeslider_id='range_slider',
                                              value_format=lambda x: str(int(x)))
     game_options.add.toggle_switch('Mute',0, onchange=lambda x : set_mute_power(sounds, x, last_value))
-    game_options.add.selector('Dino värv',[('roheline',0), ('roosa',1)], onchange=lambda x, index : change_dino_skin(x,index,dinoPath))
+    game_options.add.selector('Dino color',[('green',0), ('pink',1)], onchange=lambda x, index : change_dino_skin(x,index,dinoPath))
     game_options.add.vertical_margin(10)
     game_options.add.vertical_margin(30)
-    game_options.add.button('Tagasi', pygame_menu.events.BACK)
+    game_options.add.button('Back', pygame_menu.events.BACK)
     return game_options
 
 def set_volume_power(sounds, new_value, last_value):

@@ -19,12 +19,12 @@ meteorite_amount = random.randint(60, 85)
 def set_difficulty(difficulty):
     global round_ammo
     global meteorite_amount
-    print(round_ammo)
+    #print(round_ammo)
     if difficulty == 1: #Hard
         round_ammo = 3 #ammo
         meteorite_amount = random.randint(60, 85) #meteorites
     else: #not so hard
-        print("kerge")
+        #print("kerge")
         round_ammo = 5 #ammo
         meteorite_amount = random.randint(10, 19) #meteorites
 
@@ -32,11 +32,11 @@ def main_menu():
     menu = pygame_menu.Menu('Muruniiduk', width, height,
                             theme=pygame_menu.themes.THEME_BLUE)
 
-    menu.add.button('Mängi', start_the_game)
+    menu.add.button('PLAY', start_the_game)
     menu.add.selector(
-        'Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=lambda x, index : set_difficulty(index))
-    menu.add.button('Seaded', game_options(sounds,DinoPath))
-    menu.add.button('Välju', pygame_menu.events.EXIT)
+        'Difficulity :', [('Hard', 1), ('Normal', 2)], onchange=lambda x, index : set_difficulty(index))
+    menu.add.button('Settings', game_options(sounds,DinoPath))
+    menu.add.button('Exit', pygame_menu.events.EXIT)
     return menu
 
 
@@ -242,7 +242,7 @@ pygame.font.init()
 sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"), pygame.mixer.Sound("Kunst/Muusika/boom.wav"),
           pygame.mixer.Sound("Kunst/Muusika/shot2.wav"), pygame.mixer.Sound("Kunst/Muusika/meteorDown.wav")]
 DinoPath = ["Kunst/Dinos/Green/"]
-
+pygame.display.set_caption("name")  # name
 # pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height])  # hetkel jätan nii suureks
 main_menu().mainloop(window)
