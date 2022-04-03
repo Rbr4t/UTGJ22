@@ -56,7 +56,7 @@ def start_the_game():
     taust = pygame.image.load("Kunst/Esemed/taust.png")
     # char = sarurusG_seisab #suvaline pilt hetkel ei hakka praegu pilte lisama
     #window = pygame.display.set_mode([800, 600])
-    korrad = 0
+   
     RUN = True
 
     
