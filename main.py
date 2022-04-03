@@ -247,6 +247,8 @@ pygame.font.init()
 sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"), pygame.mixer.Sound("Kunst/Muusika/boom.wav"),
           pygame.mixer.Sound("Kunst/Muusika/shot2.wav"), pygame.mixer.Sound("Kunst/Muusika/meteorDown.wav")]
 DinoPath = ["Kunst/Dinos/Green/"]
+icon = pygame.image.load("Kunst/Dinos/Green/dino_dead_Big.png")
+pygame.display.set_icon(icon)
 pygame.display.set_caption("DinoDeath")  # name
 # pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height])  # hetkel jätan nii suureks
