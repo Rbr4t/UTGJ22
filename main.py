@@ -15,7 +15,7 @@ def main_menu():
     menu = pygame_menu.Menu('Muruniiduk', width, height,
                             theme=pygame_menu.themes.THEME_BLUE)
 
-    menu.add.button('Mängi', start_the_game(width, height))
+    menu.add.button('Mängi', start_the_game)
     menu.add.selector(
         'Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=set_difficulty)
     menu.add.button('Seaded', game_options(sounds,DinoPath))
@@ -23,7 +23,7 @@ def main_menu():
     return menu
 
 
-def start_the_game(width, height):
+def start_the_game():
     saurus = {'walkL': [pygame.image.load(DinoPath[0]+"dino_walk_l.png"), pygame.image.load(DinoPath[0]+"dino_walk_l_ii.png")],
               'walkR': [pygame.image.load(DinoPath[0]+"dino_walk_r.png"), pygame.image.load(DinoPath[0]+"dino_walk_r_ii.png")],
               'jumpL': [pygame.image.load(DinoPath[0]+"dino_jump_l.png")],
@@ -181,7 +181,7 @@ def start_the_game(width, height):
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
         pygame.display.update()
 
-
+global width, height
 width = 800
 height = 600
 pygame.init()
