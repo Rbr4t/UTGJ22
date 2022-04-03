@@ -15,7 +15,7 @@ def main_menu():
     menu = pygame_menu.Menu('Muruniiduk', width, height,
                             theme=pygame_menu.themes.THEME_BLUE)
 
-    menu.add.button('Mängi', start_the_game)
+    menu.add.button('Mängi', start_the_game(width, height))
     menu.add.selector(
         'Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=set_difficulty)
     menu.add.button('Seaded', game_options(sounds,DinoPath))
@@ -23,7 +23,7 @@ def main_menu():
     return menu
 
 
-def start_the_game():
+def start_the_game(width, height):
     saurus = {'walkL': [pygame.image.load(DinoPath[0]+"dino_walk_l.png"), pygame.image.load(DinoPath[0]+"dino_walk_l_ii.png")],
               'walkR': [pygame.image.load(DinoPath[0]+"dino_walk_r.png"), pygame.image.load(DinoPath[0]+"dino_walk_r_ii.png")],
               'jumpL': [pygame.image.load(DinoPath[0]+"dino_jump_l.png")],
@@ -41,6 +41,8 @@ def start_the_game():
     korrad = 0
     RUN = True
 
+    muru = pygame.image.load("Kunst/Esemed/muru.png")
+
     bullets = []
     # class to var
     player = classes.Player(window, saurus["standL"][0])
@@ -51,16 +53,20 @@ def start_the_game():
     enemies = [classes.Meteor(window)
                for _ in range(crazy)]  # creating falling meteors
     
+    #HUD elemdid
     hearts = 3
     listed_hearts = [(heart, (0, 0)), (heart, (40, 0)), (heart, (80, 0))]
+
+    myfont = pygame.font.SysFont("Arial", 25)
+    score = 0
 
     shootLoop = 0
     clock = pygame.time.Clock()
     
     while RUN and hearts > 0:
         clock.tick(30)
-        print(str(hearts))
         
+        textsurface = myfont.render(f"Score: {hearts}", False, (0, 0, 0))
         # bullets
         if shootLoop > 0:
             shootLoop += 1
@@ -136,11 +142,19 @@ def start_the_game():
                 player.y = 490
 
         window.fill((255, 255, 255))
-
+        
         player.draw()
         player.change()
+
+        window.blit(muru, (0, -5))
+
+        #HUD elemendid
+
+        window.blit(textsurface, (width-120, 0))
         for heart in listed_hearts:
             window.blit(heart[0], heart[1])
+
+
         # meteoor
         dt = clock.get_time() / (1.0 / 60.0 * 1000)
         for enemy in enemies:
@@ -163,7 +177,7 @@ def start_the_game():
                 enemies.remove(enemy)
 
         player.sides(player.x, player.y)
-
+        
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
         pygame.display.update()
 
@@ -172,6 +186,7 @@ width = 800
 height = 600
 pygame.init()
 pygame.mixer.init()
+pygame.font.init()
 sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"), pygame.mixer.Sound("Kunst/Muusika/boom.wav"),
           pygame.mixer.Sound("Kunst/Muusika/shot2.wav"), pygame.mixer.Sound("Kunst/Muusika/meteorDown.wav")]
 DinoPath = ["Kunst/Dinos/Green/"]

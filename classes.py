@@ -37,7 +37,8 @@ class Meteor:
         self.y = 0
         self.vx = 0
         self.vy = random.uniform(1, 2)
-        self.img = pygame.image.load("test_subject.png")
+        self.meteoriidid = ("Kunst/Esemed/meteoriit1.png", "Kunst/Esemed/meteoriit2.png", "Kunst/Esemed/meteoriit3.png", "Kunst/Esemed/meteoriit4.png")
+        self.img = pygame.image.load(self.meteoriidid[random.randint(0, 3)])
         self.hitbox = (self.x, self.y, 50, 50)
     def update(self, dt):
         self.x += self.vx * dt
