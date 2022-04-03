@@ -249,7 +249,7 @@ sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"), pygame.mixer.Sound("Kuns
 DinoPath = ["Kunst/Dinos/Green/"]
 icon = pygame.image.load("Kunst/Dinos/Green/dino_ico.png")
 pygame.display.set_icon(icon)
-pygame.display.set_caption("DinoDeath")  # name
+pygame.display.set_caption("dinosaur Terminator")  # name
 # pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height])  # hetkel jätan nii suureks
 main_menu().mainloop(window)
