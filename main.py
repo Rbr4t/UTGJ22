@@ -9,7 +9,7 @@ from pygame.locals import *
 
 from menu import game_options, set_difficulty
 global sounds
-
+global DinoPath
 
 def main_menu():
     menu = pygame_menu.Menu('Muruniiduk', width, height,
@@ -18,15 +18,20 @@ def main_menu():
     menu.add.button('Mängi', start_the_game)
     menu.add.selector(
         'Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=set_difficulty)
-    menu.add.button('Seaded', game_options(sounds))
+    menu.add.button('Seaded', game_options(sounds,DinoPath))
     menu.add.button('Välju', pygame_menu.events.EXIT)
     return menu
 
 
 def start_the_game():
+    saurus = {'walkL': [pygame.image.load(DinoPath[0]+"dino_walk_l.png"), pygame.image.load(DinoPath[0]+"dino_walk_l_ii.png")],
+              'walkR': [pygame.image.load(DinoPath[0]+"dino_walk_r.png"), pygame.image.load(DinoPath[0]+"dino_walk_r_ii.png")],
+              'jumpL': [pygame.image.load(DinoPath[0]+"dino_jump_l.png")],
+              'jumpR': [pygame.image.load(DinoPath[0]+"dino_jump_r.png")],
+              'standL': [pygame.image.load(DinoPath[0]+"dino_stand_l.png")],
+              'standR': [pygame.image.load(DinoPath[0]+"dino_stand_r.png")],
+              }
     #bg = pygame.image.load("")
-    saurusG_kõnnib = [pygame.image.load(
-        "Kunst/Dinos/Green/dino_walk_r.png"), pygame.image.load("Kunst/Dinos/Green/dino_stand.png")]
     sarurusG_seisab = pygame.image.load("Kunst/Dinos/Pink/dino_stand_l.png")
     pygame.mixer.music.load('Kunst/Muusika/bgm.wav')
     heart = pygame.image.load("Kunst/Esemed/heart.png")
@@ -38,7 +43,7 @@ def start_the_game():
 
     bullets = []
     # class to var
-    player = classes.Player(window, sarurusG_seisab)
+    player = classes.Player(window, saurus["standL"][0])
     bullet = classes.Projectile(player.x, player.y)
     # gamemodes
     easy = random.randint(1, 12)
@@ -77,23 +82,30 @@ def start_the_game():
 
         if keys[pygame.K_a]:
             player.x -= player.vel
-            if clock.get_time() % 3:
-                player.image = pygame.image.load(
-                    "Kunst/Dinos/Pink/dino_walk_l.png")
-            elif clock.get_time() % 3 == 1:
-                player.image = pygame.image.load(
-                    "Kunst/Dinos/Pink/dino_walk_l_ii.png")
-            else: 
-                player.image = pygame.image.load(
-                    "Kunst/Dinos/Pink/dino_stand_l.png")
+            if DinoPath[0] == player.image != "Kunst/Dinos/Green/":
+                if clock.get_time() % 3:
+                    player.image = saurus["walkL"][0]
+                elif clock.get_time() % 3 == 1:
+                    player.image = saurus["walkL"][1]
+                else:
+                    player.image = saurus["standL"][0]
+            else:
+                if clock.get_time() % 2:
+                    player.image = saurus["walkL"][0]
+                else:
+                    player.image = saurus["standL"][0]
         if keys[pygame.K_d]:
             player.x += player.vel
-            if clock.get_time() % 2:
-                player.image = pygame.image.load(
-                    "Kunst/Dinos/Pink/dino_walk_r.png")
+            if DinoPath[0] == player.image != "Kunst/Dinos/Green/":
+                if clock.get_time() % 2:
+                    player.image = saurus["walkR"][0]
+                else:
+                    player.image = saurus["walkR"][1]
             else:
-                player.image = pygame.image.load(
-                    "Kunst/Dinos/Pink/dino_walk_r_ii.png")
+                if clock.get_time() % 2:
+                    player.image = saurus["walkR"][0]
+                else:
+                    player.image = saurus["standR"][0]
         if keys[pygame.K_SPACE] and shootLoop == 0:
             if len(bullets) < 10:
                 pygame.mixer.Sound.play(sounds[2])
@@ -112,8 +124,7 @@ def start_the_game():
 
             if keys[pygame.K_w]:
                 player.isJump = True
-                player.image = pygame.image.load(
-                    "Kunst/Dinos/Pink/dino_jump_l.png")
+                player.image = saurus["jumpL"][0]
                 pygame.mixer.Sound.play(sounds[0])
         else:
             if player.jumpCount >= -8:
@@ -163,6 +174,8 @@ pygame.init()
 pygame.mixer.init()
 sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"), pygame.mixer.Sound("Kunst/Muusika/boom.wav"),
           pygame.mixer.Sound("Kunst/Muusika/shot2.wav"), pygame.mixer.Sound("Kunst/Muusika/meteorDown.wav")]
+DinoPath = ["Kunst/Dinos/Green/"]
+
 # pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height])  # hetkel jätan nii suureks
 main_menu().mainloop(window)

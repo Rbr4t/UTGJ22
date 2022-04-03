@@ -6,7 +6,7 @@ def set_difficulty(value, difficulty):
     # Do the job here !
     pass
 
-def game_options(sounds):
+def game_options(sounds, dinoPath):
     # -------------------------------------------------------------------------
     # Create menus: settings
     # -------------------------------------------------------------------------
@@ -26,7 +26,7 @@ def game_options(sounds):
                                              rangeslider_id='range_slider',
                                              value_format=lambda x: str(int(x)))
     game_options.add.toggle_switch('Mute',0, onchange=lambda x : set_mute_power(sounds, x, last_value))
-    game_options.add.selector('Dino värv',[('roheline',0), ('roosa',1)])
+    game_options.add.selector('Dino värv',[('roheline',0), ('roosa',1)], onchange=lambda x, index : change_dino_skin(x,index,dinoPath))
     game_options.add.vertical_margin(10)
     game_options.add.vertical_margin(30)
     game_options.add.button('Tagasi', pygame_menu.events.BACK)
@@ -47,3 +47,13 @@ def set_mute_power(sounds, muted, last_value):
         for sound in sounds:
             sound.set_volume(last_value)
         pygame.mixer.music.set_volume(last_value)
+
+def change_dino_skin(selectedItem, isPink, DinoPath):
+    print(DinoPath)
+    if (isPink):
+        print("pink")
+        DinoPath[0] = "Kunst/Dinos/Pink/"
+    else:
+        print("green")
+        DinoPath[0] = "Kunst/Dinos/Green/"
+    print(DinoPath)
