@@ -4,10 +4,10 @@ import pygame
 import random
 import classes
 import time
-from datetime import datetime
-from pygame.locals import *
 
+from pygame.locals import *
 from menu import game_options
+
 global sounds
 global DinoPath
 global meteorite_amount
@@ -81,6 +81,7 @@ def start_the_game():
 
     myfont = pygame.font.SysFont("Arial", 25)
     score = 0
+    double_points = False
 
     #Aeg
     counter = 10
@@ -99,12 +100,14 @@ def start_the_game():
                 new_meteorites = [classes.Meteor(window)
                 for _ in range(int(meteorite_amount/2))]
                 enemies.extend(new_meteorites)
+                double_points = True
                 counter = 20
             else:
                 counter = 120
                 new_meteorites = [classes.Meteor(window)
                 for _ in range(meteorite_amount)]
                 enemies.extend(new_meteorites+12)
+                double_points = False
                 counter = 10
             M += 1
             
@@ -113,8 +116,8 @@ def start_the_game():
 
 
         clock.tick(30)
-        countersurface = myfont.render(f"Time left: {counter}", False, (0, 0, 0))
-        textsurface = myfont.render(f"Score: {hearts}", False, (0, 0, 0))
+        countersurface = myfont.render(f"Timer: {counter}", False, (0, 0, 0))
+        textsurface = myfont.render(f"Score: {score}", False, (0, 0, 0))
         # bullets
         if shootLoop > 0:
             shootLoop += 1
@@ -207,6 +210,9 @@ def start_the_game():
                 bullet.draw(window)
                 if pygame.Rect.colliderect(bullet.bllt(window), enemy.ennmy()):
                     bullet.die()
+                    score += 1
+                    if double_points:
+                         score += 1
                     enemy.die()
                     pygame.mixer.Sound.play(sounds[3])
 
@@ -217,6 +223,7 @@ def start_the_game():
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
                 hearts -= 1
+                
                 listed_hearts.pop(-1)
                 pygame.mixer.Sound.play(sounds[1])
                 enemies.remove(enemy)
