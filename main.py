@@ -12,8 +12,8 @@ global sounds
 global DinoPath
 global meteorite_amount
 global round_ammo
-round_ammo = 2
-meteorite_amount = random.randint(50, 130)
+round_ammo = 3
+meteorite_amount = random.randint(60, 85)
 
 
 def set_difficulty(difficulty):
@@ -21,7 +21,7 @@ def set_difficulty(difficulty):
     global meteorite_amount
     print(round_ammo)
     if difficulty == 1: #Hard
-        round_ammo = 2 #ammo
+        round_ammo = 3 #ammo
         meteorite_amount = random.randint(60, 85) #meteorites
     else: #not so hard
         print("kerge")
@@ -68,14 +68,12 @@ def start_the_game():
     player = classes.Player(window, saurus["standL"][0])
     bullet = classes.Projectile(player.x, player.y)
     # gamemodes
-    easy = random.randint(1, 12)
     global round_ammo
     global meteorite_amount #= random.randint(50, 130) # crazy == gamemod. chan
     
-    crazy = random.randint(12, 30)
-    X = easy
+    meteorite_amount
     enemies = [classes.Meteor(window)
-               for _ in range(X)]  # creating falling meteors
+               for _ in range(meteorite_amount)]  # creating falling meteors
     
     #HUD elemdid
     hearts = 3
@@ -85,7 +83,7 @@ def start_the_game():
     score = 0
 
     #Aeg
-    counter = 30
+    counter = 10
     pygame.time.set_timer(pygame.USEREVENT, 1000)
     font = pygame.font.SysFont('Consolas', 30)
     
@@ -95,18 +93,19 @@ def start_the_game():
     
     M = 1
     while RUN and hearts > 0:
-        #time remaining
-        
-        print(X)
-         
+        #time remaining         
         if counter == 0:
             if M%2 != 0:
-                X = crazy
-               
-                counter = 60
+                new_meteorites = [classes.Meteor(window)
+                for _ in range(int(meteorite_amount/2))]
+                enemies.extend(new_meteorites)
+                counter = 20
             else:
                 counter = 120
-                X = easy
+                new_meteorites = [classes.Meteor(window)
+                for _ in range(meteorite_amount)]
+                enemies.extend(new_meteorites+12)
+                counter = 10
             M += 1
             
         
@@ -212,7 +211,7 @@ def start_the_game():
                     pygame.mixer.Sound.play(sounds[3])
 
         if enemies == []:
-            enemies = [classes.Meteor(window) for _ in range(X)]
+            enemies = [classes.Meteor(window) for _ in range(meteorite_amount)]
         for enemy in enemies:
             enemy.update(dt)
             enemy.draw(window)
