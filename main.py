@@ -224,10 +224,13 @@ def start_the_game():
             enemy.draw(window)
             if pygame.Rect.colliderect(player.pplyr(), enemy.ennmy()):
                 hearts -= 1
-                
-                listed_hearts.pop(-1)
-                pygame.mixer.Sound.play(sounds[1])
-                enemies.remove(enemy)
+                try:
+                    listed_hearts.pop(-1)
+                    pygame.mixer.Sound.play(sounds[1])
+                    enemies.remove(enemy)
+                except:
+                    RUN = False
+            
 
         player.sides(player.x, player.y)
         
