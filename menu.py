@@ -1,10 +1,6 @@
 import pygame
 import pygame_menu
 
-def set_difficulty(value, difficulty):
-    #print(value, difficulty)
-    # Do the job here !
-    pass
 
 def game_options(sounds, dinoPath):
     # -------------------------------------------------------------------------

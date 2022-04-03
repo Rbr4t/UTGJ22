@@ -22,7 +22,7 @@ class Player:
         
         self.window.blit(self.image, (self.x, self.y)) # this
     def change(self):
-        self.hitbox = (self.x, self.y, 50, 50) 
+        self.hitbox = (self.x, self.y+13, 100, 85) #hitbox
         
     def sides(self, x, y):
         if self.x > self.window.get_width()-self.image.get_width():
@@ -43,7 +43,7 @@ class Meteor:
     def update(self, dt):
         self.x += self.vx * dt
         self.y += self.vy * dt
-        if(self.y > 480):
+        if(self.y > (self.window.get_size()[1] - 40)):
             self.die()
     def ennmy(self):
         return pygame.draw.rect(self.window, (255,0,0), self.hitbox,2)

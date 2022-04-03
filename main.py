@@ -7,9 +7,26 @@ import time
 
 from pygame.locals import *
 
-from menu import game_options, set_difficulty
+from menu import game_options
 global sounds
 global DinoPath
+global meteorite_amount
+global round_ammo
+round_ammo = 2
+meteorite_amount = random.randint(50, 130)
+
+
+def set_difficulty(difficulty):
+    global round_ammo
+    global meteorite_amount
+    print(round_ammo)
+    if difficulty == 1: #Hard
+        round_ammo = 2 #ammo
+        meteorite_amount = random.randint(60, 85) #meteorites
+    else: #not so hard
+        print("kerge")
+        round_ammo = 5 #ammo
+        meteorite_amount = random.randint(10, 19) #meteorites
 
 def main_menu():
     menu = pygame_menu.Menu('Muruniiduk', width, height,
@@ -17,7 +34,7 @@ def main_menu():
 
     menu.add.button('Mängi', start_the_game)
     menu.add.selector(
-        'Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=set_difficulty)
+        'Rasusaste :', [('Raske', 1), ('Ei ole raske', 2)], onchange=lambda x, index : set_difficulty(index))
     menu.add.button('Seaded', game_options(sounds,DinoPath))
     menu.add.button('Välju', pygame_menu.events.EXIT)
     return menu
@@ -49,9 +66,10 @@ def start_the_game():
     bullet = classes.Projectile(player.x, player.y)
     # gamemodes
     easy = random.randint(1, 12)
-    crazy = random.randint(12, 30)
+    global round_ammo
+    global meteorite_amount #= random.randint(50, 130) # crazy == gamemod. chan
     enemies = [classes.Meteor(window)
-               for _ in range(crazy)]  # creating falling meteors
+               for _ in range(meteorite_amount)]  # creating falling meteors
     
     #HUD elemdid
     hearts = 3
@@ -113,17 +131,11 @@ def start_the_game():
                 else:
                     player.image = saurus["standR"][0]
         if keys[pygame.K_SPACE] and shootLoop == 0:
-            if len(bullets) < 10:
+            if len(bullets) < round_ammo: #round ammo
                 pygame.mixer.Sound.play(sounds[2])
                 bullets.append(classes.Projectile(
                     round(player.x), round(player.y)))
             shootLoop = 1
-        if keys[pygame.K_LCTRL]:
-            paused = not paused
-            if (paused):
-                clock.tick(0)
-            else:
-                clock.tick(30)
 
         # jumping mechanism
         if not(player.isJump):
@@ -166,7 +178,7 @@ def start_the_game():
                     pygame.mixer.Sound.play(sounds[3])
 
         if enemies == []:
-            enemies = [classes.Meteor(window) for _ in range(crazy)]
+            enemies = [classes.Meteor(window) for _ in range(meteorite_amount)]
         for enemy in enemies:
             enemy.update(dt)
             enemy.draw(window)
