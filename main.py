@@ -140,7 +140,7 @@ def start_the_game():
                 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             player.x -= player.vel
             if DinoPath[0] == player.image != "Kunst/Dinos/Green/":
                 if clock.get_time() % 3:
@@ -154,7 +154,7 @@ def start_the_game():
                     player.image = saurus["walkL"][0]
                 else:
                     player.image = saurus["standL"][0]
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             player.x += player.vel
             if DinoPath[0] == player.image != "Kunst/Dinos/Green/":
                 if clock.get_time() % 2:
@@ -166,7 +166,7 @@ def start_the_game():
                     player.image = saurus["walkR"][0]
                 else:
                     player.image = saurus["standR"][0]
-        if keys[pygame.K_SPACE] and shootLoop == 0:
+        if keys[pygame.K_SPACE]  and shootLoop == 0:
             if len(bullets) < round_ammo: #round ammo
                 pygame.mixer.Sound.play(sounds[2])
                 bullets.append(classes.Projectile(
@@ -176,7 +176,7 @@ def start_the_game():
         # jumping mechanism
         if not(player.isJump):
 
-            if keys[pygame.K_w]:
+            if keys[pygame.K_w] or keys[pygame.K_UP]:
                 player.isJump = True
                 player.image = saurus["jumpL"][0]
                 pygame.mixer.Sound.play(sounds[0])
@@ -234,7 +234,7 @@ def start_the_game():
 
         player.sides(player.x, player.y)
         
-        image = pygame.image.load('setting_ico_smol.png').convert_alpha()
+        
         pygame.display.update()
     
 
