@@ -16,9 +16,10 @@ class Player:
 
         self.hitbox = (self.x, self.y, 50, 50) # this
     def pplyr(self):
-        return pygame.draw.rect(self.window, (255,0,0), self.hitbox,2)
+        return pygame.draw.rect(self.window, (255,255,255), self.hitbox,2)
     def draw(self):
-        pygame.draw.rect(self.window, (255,0,0), self.hitbox,2)
+        pygame.draw.rect(self.window, (255,255,255), self.hitbox, 1)
+        pass
         
         self.window.blit(self.image, (self.x, self.y)) # this
     def change(self):
@@ -46,7 +47,7 @@ class Meteor:
         if(self.y > (self.window.get_size()[1] - 40)):
             self.die()
     def ennmy(self):
-        return pygame.draw.rect(self.window, (255,0,0), self.hitbox,2)
+        return pygame.draw.rect(self.window, (255,255,255), self.hitbox,2)
     def die(self):
         self.y = 0
         self.x = random.uniform(0, 800)
@@ -69,10 +70,10 @@ class Projectile:
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x+25, self.y), self.radius)
         self.hitbox = (self.x+15, self.y-10, 20, 20) #hitbox'i väärtused
-        #pygame.draw.rect(win, (255,0,0), self.hitbox,2)
+        pygame.draw.rect(win, (255,255,255), self.hitbox,2)
     
     def bllt(self, win):
-        return pygame.draw.rect(win, (255,0,0), self.hitbox,2)
-
+        return pygame.draw.rect(win, (255,255,255), self.hitbox,2)
+                     
     def die(self):
         self.y = -30

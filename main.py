@@ -24,13 +24,8 @@ def set_difficulty(difficulty):
         round_ammo = 3 #ammo
         meteorite_amount = random.randint(60, 85) #meteorites
     else: #not so hard
-<<<<<<< HEAD
-        #print("kerge")
-        round_ammo = 5 #ammo
-=======
         print("kerge")
         round_ammo = 7 #ammo
->>>>>>> fe9e9ea4069bf39724aa3d748dac40aa5cf71db7
         meteorite_amount = random.randint(10, 19) #meteorites
 
 def main_menu():
@@ -58,6 +53,7 @@ def start_the_game():
     pygame.mixer.music.load('Kunst/Muusika/bgm.wav')
     heart = pygame.image.load("Kunst/Esemed/heart.png")
     pygame.mixer.music.play(-1)
+    taust = pygame.image.load("Kunst/Esemed/taust.png")
     # char = sarurusG_seisab #suvaline pilt hetkel ei hakka praegu pilte lisama
     #window = pygame.display.set_mode([800, 600])
     korrad = 0
@@ -194,7 +190,7 @@ def start_the_game():
                 player.y = 490
 
         window.fill((255, 255, 255))
-        
+        window.blit(taust, (0, 0))
         player.draw()
         player.change()
 
@@ -237,6 +233,7 @@ def start_the_game():
         
         image = pygame.image.load('setting_ico_smol.png').convert_alpha()
         pygame.display.update()
+    
 
 global width, height
 width = 800
@@ -247,7 +244,7 @@ pygame.font.init()
 sounds = [pygame.mixer.Sound("Kunst/Muusika/jump.wav"), pygame.mixer.Sound("Kunst/Muusika/boom.wav"),
           pygame.mixer.Sound("Kunst/Muusika/shot2.wav"), pygame.mixer.Sound("Kunst/Muusika/meteorDown.wav")]
 DinoPath = ["Kunst/Dinos/Green/"]
-pygame.display.set_caption("name")  # name
+pygame.display.set_caption("DinoDeath")  # name
 # pygame.mixer.Sound.set_volume(0.5)
 window = pygame.display.set_mode([width, height])  # hetkel jätan nii suureks
 main_menu().mainloop(window)
